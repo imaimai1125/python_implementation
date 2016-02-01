@@ -27,4 +27,7 @@ for i in range(0,20):
 	list.append(frame)
 #最終的にフレームをパラパラ漫画のように
 ani = animation.ArtistAnimation(fig, list)
-plt.show()
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
+ani.save('gaussian.mp4', writer=writer)
+# plt.show()

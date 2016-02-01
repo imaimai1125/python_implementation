@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 #author imai takeaki
-#date Aug 25th
-#出力がベクトル（１次元じゃない）風にNNを拡張
-#出力層の最後にソフトマックス関数を使うのがポイントっぽい
-#層を2つにしたときの挙動を調べる
+#date 2nd, Feb, 2016
+#アニメーション
 
 import numpy as np
 from numpy.random import *
 import pylab as plt
+import matplotlib.animation as ArtistAnimation
 #create the training data
 N = 200
 cls1 = []
@@ -111,6 +110,7 @@ class NN:
         return w0 - self.learning_rate*gradE
 
 if __name__ == '__main__':
+    list = [] #アニメーション用のリスト
     nn = NN(2,10,10,5,0.2)
     epoch = 0
     while 1:
@@ -171,42 +171,13 @@ if __name__ == '__main__':
                         plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'yx')
                     elif np.argmax(a[5]) == 4:
                         plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'cx')
-                #print i
-            filename = "epoch_%d.jpg"%(epoch)
-            plt.savefig(filename)
+            #frameに
+            list.append(plt)
             plt.cla()
-            
         if epoch > 5000:
             break
-        #####学習したパラメータで境界線を図示
-    print "plotting...%d"%(epoch)
-    #paint the training data
-    x1, x2 = np.array(cls1).transpose()
-    plt.plot(x1,x2,'ro')
-    x1, x2 = np.array(cls2).transpose()
-    plt.plot(x1,x2,'go')
-    x1, x2 = np.array(cls3).transpose()
-    plt.plot(x1,x2,'bo')
-    x1, x2 = np.array(cls4).transpose()
-    plt.plot(x1,x2,'yo')
-    x1, x2 = np.array(cls5).transpose()
-    plt.plot(x1,x2,'co')
-    for i in range(80):
-        for j in range(80):
-            INPUT = [i*2.0/10-8.0,j*2.0/10-8.0]
-            a = nn.forward_propagation(INPUT)
-            if np.argmax(a[5]) == 0:
-                plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'rx')
-            elif np.argmax(a[5]) == 1:  
-                plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'gx')
-            elif np.argmax(a[5]) == 2:
-                plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'bx')
-            elif np.argmax(a[5]) == 3:
-                plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'yx')
-            elif np.argmax(a[5]) == 4:
-                plt.plot(i*2.0/10-8.0,j*2.0/10-8.0,'cx')
-        #print i
-    #filename = "epoch_%d.png"%(epoch)
-    #plt.savefig(filename)
+    fig = plt.figure()
+    ani = animation.ArtistAnimation(fig,list)
+    ani.save('result.mp4', writer=writer)
     plt.show()
     print "finish plotting"
