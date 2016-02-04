@@ -9,7 +9,8 @@ import pylab as plt
 def f(x):
 	# return np.log(1+np.exp(x)) #ReLU	
 	# return np.sin(x)*np.exp(-x/2) #e^(-1/2)sinx
-	return np.abs(x)*np.sin(x)
+	# return np.abs(x)*np.sin(x)
+	return np.max(x,0)
 ##式（ガウス分布）
 def gaussian(x,mu,sigma):
 	return 1/(np.sqrt(2*np.pi*sigma))*np.exp(-((x-mu)**2)/(2*sigma**2))	
