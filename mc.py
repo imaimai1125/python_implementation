@@ -8,6 +8,7 @@ import pylab as plt
 err = 0.001
 t = 1.0
 p = 1.0
+
 while (np.abs(np.pi-p/t*4.0)>err):
 	x = rnd.random()-0.5
 	y = rnd.random()-0.5
